@@ -2,7 +2,6 @@ package com.javacore.lesson03;
 
 import java.util.Iterator;
 
-
 public class MyArrayList implements Iterable<String> {
 
     private String[] stringsArray = new String[0];
@@ -10,6 +9,12 @@ public class MyArrayList implements Iterable<String> {
     private int size = 0;
 
     private void rangeCheck(int index) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    private void rangeCheckForAdd(int index) {
         if (index > size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -66,7 +71,7 @@ public class MyArrayList implements Iterable<String> {
     }
 
     public boolean add(int index, String text) {
-        rangeCheck(index);
+        rangeCheckForAdd(index);
         final String[] m = stringsArray;
         stringsArray = new String[this.size+1];
 
@@ -186,5 +191,4 @@ public class MyArrayList implements Iterable<String> {
 
         System.out.println(myArrayList.size());
     }
-
 }
