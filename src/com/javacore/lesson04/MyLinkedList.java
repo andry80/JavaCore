@@ -7,7 +7,7 @@ public class MyLinkedList {
     private int size = 0;
 
     private void rangeCheck(int index) {
-        if (index > size || index < 0) {
+        if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
     }
@@ -68,17 +68,15 @@ public class MyLinkedList {
                 if (i == index - 1) {
                     if (nextIsNull(nextNode.getNext())) {
                         nextNode.setNext(null);
-                        size--;
-                        break;
                     } else {
                         Node prewNode = nextNode;
                         nextNode = nextNode.getNext().getNext() ;
 
                         nextNode.setPrev(prewNode);
                         prewNode.setNext(nextNode);
-                        size--;
-                        break;
                     }
+                    size--;
+                    break;
                 } else {
                     nextNode = nextNode.getNext();
                     i++;
@@ -186,25 +184,25 @@ public class MyLinkedList {
         mylinckedlist.add(1, 4);
 
         try {
-            mylinckedlist.add(100, 100);
+            mylinckedlist.add(5, 100);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("add exception");
         }
 
         try {
-            mylinckedlist.remove(100);
+            mylinckedlist.remove(5);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("remove exception");
         }
 
         try {
-            mylinckedlist.set(100, 100);
+            mylinckedlist.set(5, 100);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("set exception");
         }
 
         try {
-            mylinckedlist.get(100);
+            mylinckedlist.get(5);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("get exception");
         }
