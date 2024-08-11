@@ -3,11 +3,11 @@ package com.javacore.lesson06;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Program {
+public class OrderService {
 
     Input input;
 
-    public Program(Input input) {
+    public OrderService(Input input) {
         this.input = input;
     }
 
@@ -24,7 +24,7 @@ public class Program {
         orders.add(new Order(5));
 
         Input input = new Input(orders);
-        Program program = new Program(input);
+        OrderService program = new OrderService(input);
         program.start();
     }
 

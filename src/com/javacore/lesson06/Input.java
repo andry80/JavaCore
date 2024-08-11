@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 public class Input {
 
-    ArrayList arrayList;
+    ArrayList orders;
 
     private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public Input(ArrayList arrayList) {
-        this.arrayList = arrayList;
+    public Input(ArrayList orders) {
+        this.orders = orders;
     }
 
     public boolean menu() throws IOException {
@@ -42,15 +42,20 @@ public class Input {
         num = Integer.parseInt(bufferedReader.readLine());
         Order order = new Order(num);
 
-        if (arrayList.contains(order)) {
-            Order order1 = (Order) arrayList.get(arrayList.indexOf(order));
-            this.view(order1);
+        if (orders.contains(order)) {
+            Order foundOrder = (Order) orders.get(orders.indexOf(order));
+            this.view(foundOrder);
+            if (foundOrder.getStatus() == OrderStatus.FINISHED || foundOrder.getStatus() == OrderStatus.FAILED) {
+                return;
+            } else {
+                this.choise(foundOrder);
+            }
         } else {
             System.out.println();
             System.out.println("This ID not found in list");
             System.out.println("Order added to list with ID: " + num);
             System.out.println();
-            arrayList.add(order);
+            orders.add(order);
         }
     }
 
@@ -85,20 +90,13 @@ public class Input {
         }
     }
 
-    public void view(Order order) throws IOException {
-
+    public void view(Order order) {
         System.out.println();
         System.out.println("Order ID: " + order.getId());
         System.out.println("Order status: " + order.getStatus());
         System.out.println("Creating Order time: " + Time.time(order.getStart()));
         System.out.println("Updating Order time: " + Time.time(order.getUpdate()));
         System.out.println();
-        if (order.getStatus() == OrderStatus.FINISHED || order.getStatus() == OrderStatus.FAILED) {
-            return;
-        } else {
-            this.choise(order);
-        }
-
     }
 
     public void changeStatus(Order order) throws IOException, InvalidStatusException {
