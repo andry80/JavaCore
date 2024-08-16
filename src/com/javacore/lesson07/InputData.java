@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class InputData {
 
-    private final ArrayList orders;
+    private final ArrayList<Order> orders;
 
     private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public InputData(ArrayList orders) {
+    public InputData(ArrayList<Order> orders) {
         this.orders = orders;
     }
 
@@ -40,7 +40,7 @@ public class InputData {
         Order order = new Order(num);
 
         if (orders.contains(order)) {
-            Order foundOrder = (Order) orders.get(orders.indexOf(order));
+            Order foundOrder = orders.get(orders.indexOf(order));
             System.out.println(foundOrder);
             if (foundOrder.getStatusOrder() != OrderStatus.FAILED && foundOrder.getStatusOrder() != OrderStatus.FINISHED) {
                 this.changeMenu(foundOrder);
