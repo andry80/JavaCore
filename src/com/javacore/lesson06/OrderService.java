@@ -5,27 +5,22 @@ import java.util.ArrayList;
 
 public class OrderService {
 
-    Input input;
+    InputData input;
 
-    public OrderService(Input input) {
+    public OrderService(InputData input) {
         this.input = input;
     }
 
-    public void start() throws IOException {
-        input.menu();
+    public void startService() throws IOException {
+        input.startMenu();
     }
 
     public static void main(String[] args) throws IOException {
         ArrayList<Order> orders = new ArrayList<>();
 
-        orders.add(new Order(10));
-        orders.add(new Order(2));
-        orders.add(new Order(6));
-        orders.add(new Order(5));
-
-        Input input = new Input(orders);
+        InputData input = new InputData(orders);
         OrderService program = new OrderService(input);
-        program.start();
+        program.startService();
     }
 
 }

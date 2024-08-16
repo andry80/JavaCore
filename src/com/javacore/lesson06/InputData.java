@@ -5,36 +5,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class Input {
+public class InputData {
 
-    ArrayList orders;
+    private final ArrayList<Order> orders;
 
-    private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public Input(ArrayList orders) {
+    public InputData(ArrayList<Order> orders) {
         this.orders = orders;
     }
 
-    public boolean menu() throws IOException {
+    public void startMenu() throws IOException {
 
         while (true) {
             System.out.println("1 - Menu");
             System.out.println("2 - Exit");
             System.out.print("Enter number: ");
             switch (Integer.parseInt(bufferedReader.readLine())) {
-                case 1 -> this.enter();
+                case 1 -> this.orderFinder();
                 case 2 -> {
-                    return true;
+                    return;
                 }
-                default -> {
-                    System.out.println("Try again ");
-                    continue;
-                }
+                default -> System.out.println("Try again ");
             }
         }
     }
 
-    public void enter() throws IOException {
+    public void orderFinder() throws IOException {
 
         int num;
 
@@ -43,12 +40,10 @@ public class Input {
         Order order = new Order(num);
 
         if (orders.contains(order)) {
-            Order foundOrder = (Order) orders.get(orders.indexOf(order));
-            this.view(foundOrder);
-            if (foundOrder.getStatus() == OrderStatus.FINISHED || foundOrder.getStatus() == OrderStatus.FAILED) {
-                return;
-            } else {
-                this.choise(foundOrder);
+            Order foundOrder = orders.get(orders.indexOf(order));
+            System.out.println(foundOrder);
+            if (foundOrder.getStatusOrder() != OrderStatus.FAILED && foundOrder.getStatusOrder() != OrderStatus.FINISHED) {
+                this.changeMenu(foundOrder);
             }
         } else {
             System.out.println();
@@ -59,7 +54,7 @@ public class Input {
         }
     }
 
-    public void choise(Order order) throws IOException {
+    public void changeMenu(Order order) throws IOException {
         while (true) {
             System.out.println("1 - Change Order Status");
             System.out.println("2 - return to menu");
@@ -82,21 +77,9 @@ public class Input {
                 case 2 -> {
                     return;
                 }
-                default -> {
-                    System.out.println("Try again ");
-                    continue;
-                }
+                default -> System.out.println("Try again ");
             }
         }
-    }
-
-    public void view(Order order) {
-        System.out.println();
-        System.out.println("Order ID: " + order.getId());
-        System.out.println("Order status: " + order.getStatus());
-        System.out.println("Creating Order time: " + Time.time(order.getStart()));
-        System.out.println("Updating Order time: " + Time.time(order.getUpdate()));
-        System.out.println();
     }
 
     public void changeStatus(Order order) throws IOException, InvalidStatusException {
@@ -107,9 +90,9 @@ public class Input {
         System.out.print("Enter number: ");
 
         switch (Integer.parseInt(bufferedReader.readLine())) {
-            case 1 -> order.setStatus(OrderStatus.IN_PROGRESS);
-            case 2 -> order.setStatus(OrderStatus.FINISHED);
-            default -> order.setStatus(OrderStatus.FAILED);
+            case 1 -> order.setStatusOrder(OrderStatus.IN_PROGRESS);
+            case 2 -> order.setStatusOrder(OrderStatus.FINISHED);
+            default -> order.setStatusOrder(OrderStatus.FAILED);
         }
     }
 }
