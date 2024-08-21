@@ -8,59 +8,20 @@ public class FileReadWriter {
 
     static final String pathToFile = "src/com/javacore/lesson07/OrdersData.txt";
 
-    public static void readFromFile(ArrayList<Order> orders) throws IOException, InvalidStatusException {
-        int id = 0;
-        OrderStatus statusOrder = null;
-        LocalDateTime startOrderTime = null;
-        LocalDateTime updateOrderTime = null;
-
+    public static void readFromFile(ArrayList<Order> orders) throws InvalidStatusException, IOException {
         try (BufferedReader bufferReader = new BufferedReader(new FileReader(pathToFile))) {
-
             String line;
-            StringBuilder stringBuilder;
-            int counter = 1;
-
             while ((line = bufferReader.readLine()) != null) {
-                stringBuilder = new StringBuilder();
-                for (int i = 0; i < line.length(); i++) {
-                    if (line.charAt(i) == ';') {
-                        switch (counter) {
-                            case 1 -> {
-                                id = Integer.parseInt(stringBuilder.toString());
-                                counter = 2;
-                                stringBuilder = new StringBuilder();
-                            }
-                            case 2 -> {
-                                statusOrder = OrderStatus.valueOf(stringBuilder.toString());
-                                counter = 3;
-                                stringBuilder = new StringBuilder();
-                            }
-                            case 3 -> {
-                                startOrderTime = LocalDateTime.parse(stringBuilder);
-                                counter = 4;
-                                stringBuilder = new StringBuilder();
-                            }
-                        }
-                    } else {
-                        stringBuilder.append(line.charAt(i));
-                    }
-                    if (counter == 4 && i == line.length() - 1) {
-                        updateOrderTime = LocalDateTime.parse(stringBuilder);
-                        counter = 1;
-                        stringBuilder = new StringBuilder();
-                    }
-                }
-                Order order = new Order(id);
-                order.setStatusOrder(statusOrder);
-                order.setStartOrderTime(startOrderTime);
-                order.setUpdateOrderTime(updateOrderTime);
+                String[] lst = line.split(";");
+                Order order = new Order(Integer.parseInt(lst[0]));
+                order.setStatusOrder(OrderStatus.valueOf(lst[1]));
+                order.setStartOrderTime(LocalDateTime.parse(lst[2]));
+                order.setUpdateOrderTime(LocalDateTime.parse(lst[3]));
                 orders.add(order);
-
             }
         } catch (FileNotFoundException ex) {
             System.out.println("No Data");
         }
-
     }
 
 
