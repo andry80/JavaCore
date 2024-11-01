@@ -35,11 +35,6 @@ public class JobQueue {
                     Task task = new Task();
                     try {
                         jobQueue.put(task);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    try {
                         TimeUnit.SECONDS.sleep(5);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
