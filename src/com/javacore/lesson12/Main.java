@@ -37,8 +37,7 @@ public class Main {
             System.out.println(" value "+ field.getName()+ " " + field.isAnnotationPresent(NotNullValue.class)+ ": " + value);
 
             if (field.isAnnotationPresent(NotNullValue.class) && value == null) {
-                System.out.println("Field " + field.getName() + " is null");
-                throw new NullValueException();
+                throw new NullValueException(field.getName());
             }
             if (change) {
                 field.setAccessible(false);
